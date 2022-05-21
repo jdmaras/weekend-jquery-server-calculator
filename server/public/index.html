@@ -10,18 +10,26 @@
     <title>Weekend JQuery Server Calculator</title>
   </head>
   <body>
+    <form>
     <h2>SERVER CALCULATOR</h2>
-    <table>
       <input type="text" id="inputOne" placeholder="Input One"></input>
       <input type="text" id="inputTwo" placeholder="Input Two"></input>
-      <br>
-      <button id="additionButton">+</button>
-      <button id="subtractionButton">-</button>
-      <button id="multiplicationButton">X</button>
-      <button id="divideButton">⁒</button>
-      <br>
+      <br></br>
       <button id="clearButton">C</button>
-      <button id="equalButton">=</button>
+      <button id="equalButton" type="reset">=</button>
+      </form>
+      <table>
+      <br>
+      <button class="mathButton">+</button>
+      <button class="mathButton">-</button>
+      <button class="mathButton">X</button>
+      <button class="mathButton">⁒</button>
+      <br>
     </table>
+      
+      <p id="currentMath"></p>
+      <ul id="allPastMath">
+      </ul>
+    
   </body>
 </html>
