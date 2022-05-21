@@ -16,28 +16,52 @@ app.post("/inputvalue", (req, res) => {
   console.log(`posted with new variable`, currentInputs);
   //Test - WORKS
 
+  mathEquations(currentInputs);
+  // calling all of my math button functions
+
   currentMathArray.push(currentInputs);
   console.log(`Did this push currentInputs`, currentMathArray);
+
   res.sendStatus(201);
 });
 
-function addTogetherInputs(numOne, numTwo) {
-  return Number(numOne) + Number(numTwo);
-  // Number was placed around the addition because of
+app.get("/mathAnswers", (req, res) => {
+  res.send(currentMathArray);
+  //when testing a get, type in the /mathAnswers (or whatever the URL is)
+  // and test the url on your localhost:5000/mathAnswers
+});
+
+function mathEquations(arrg) {
+  if (arrg.mathButtons === "+") {
+    return addTogetherInputs(arrg);
+  } else if (arrg.mathButtons === "-") {
+    return subtractTogetherInputs(arrg);
+  } else if (arrg.mathButtons === "X") {
+    return multiplyTogetherInputs(arrg);
+  } else {
+    return divideTogetherInputs(arrg);
+  }
+}
+
+function addTogetherInputs(addition) {
+  addition.mathAnswers = Number(addition.inputOne) + Number(addition.inputTwo);
+  // - Number was placed around the addition because of
   // the concatanation of the 2 numbers with an addition
-  // symbol
+  // - addition is the argument that becomes input object
+  // and setting the object.mathAnswers makes it change the 0
   console.log(`This adds the two`, addTogetherInputs);
 }
-function subtractTogetherInputs(numOne, numTwo) {
-  return numOne - numTwo;
+function subtractTogetherInputs(subtraction) {
+  subtraction.mathAnswers = subtraction.inputOne - subtraction.inputTwo;
   console.log(`This subtracts the two`, subtractTogetherInputs);
 }
-function multiplyTogetherInputs(numOne, numTwo) {
-  return numOne * numTwo;
+function multiplyTogetherInputs(multiplication) {
+  multiplication.mathAnswers =
+    multiplication.inputOne * multiplication.inputTwo;
   console.log(`This multiplies the two`, multiplyTogetherInputs);
 }
-function divideTogetherInputs(numOne, numTwo) {
-  return numOne / numTwo;
+function divideTogetherInputs(division) {
+  division.mathAnswers = division.inputOne / division.inputTwo;
   console.log(`This divides the two`, divideTogetherInputs);
 }
 
