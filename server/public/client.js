@@ -2,25 +2,33 @@ $(document).ready(onReady);
 
 function onReady() {
   console.log(`I'm ready - Sponge Bob`);
-  $(".mathButton").on("click", onSubmit);
+  $(".mathButton").on("click", operatorButtonPush);
   $("#clearButton").on("click", onSubmit);
   $("#equalButton").on("click", onSubmit);
 }
 
+operatorSymbols = "";
+
 function onSubmit() {
   //evt.preventDefault();
   console.log(`Bad Boy CLICKS`);
-  let bothInputs = {
+  let allInputs = {
     inputOne: $("#inputOne").val(),
     inputTwo: $("#inputTwo").val(),
+    mathButtons: operatorSymbols,
+    mathAnswers: 0,
   };
-  console.log(`Do I get input values?`, bothInputs.inputOne);
-  console.log(`Do I get input values?`, bothInputs.inputTwo);
+  //mathButtons sends over all of my operators
+  //mathAnswers is what they all equate to
+
+  console.log(`Do I get input values?`, allInputs.inputOne);
+  console.log(`Do I get input values?`, allInputs.inputTwo);
   //TEST - WORKS
+
   $.ajax({
     url: "/inputvalue",
     method: "POST",
-    data: bothInputs,
+    data: allInputs,
   })
     .then((response) => {
       console.log("POST IS WORKING", response);
@@ -29,4 +37,11 @@ function onSubmit() {
     .catch((error) => {
       console.log("NOPE - FAILED - POST", error);
     });
+}
+
+function operatorButtonPush() {
+  operatorSymbols = $(this).text();
+  console.log(`This is my operatorSymbols`, operatorSymbols);
+  //setting this to the empty string and grabbing it with this and the method
+  // of .text
 }
