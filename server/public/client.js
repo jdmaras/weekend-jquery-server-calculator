@@ -3,8 +3,9 @@ $(document).ready(onReady);
 function onReady() {
   console.log(`I'm ready - Sponge Bob`);
   $(".mathButton").on("click", operatorButtonPush);
-  $("#clearButton").on("click", onSubmit);
+  $("#clearButton").on("click", clearsTheInputs);
   $("#equalButton").on("click", onSubmit);
+  getObjectFromServer();
 }
 
 operatorSymbols = "";
@@ -25,7 +26,14 @@ function onSubmit() {
   console.log(`Do I get input values?`, allInputs.inputOne);
   console.log(`Do I get input values?`, allInputs.inputTwo);
   //TEST - WORKS
-
+  if (
+    allInputs.inputOne === "" ||
+    allInputs.inputTwo === "" ||
+    allInputs.mathButtons === ""
+  ) {
+    return false;
+  }
+  // this if keeps the equals button from running if nothing is in inputs
   $.ajax({
     url: "/inputvalue",
     method: "POST",
@@ -34,6 +42,9 @@ function onSubmit() {
     .then((response) => {
       console.log("POST IS WORKING", response);
       // TEST - WORKS
+      clearsTheInputs();
+      //running the clearInputs function in here so that if it doesn't run
+      // you can clear the inputs
     })
     .catch((error) => {
       console.log("NOPE - FAILED - POST", error);
@@ -67,12 +78,28 @@ function appendAllTheMaths(superAnswers) {
   );
   $(`#allPastMath`).empty();
   for (let oldAnswers of superAnswers) {
-    $(`#allPastMath
-`).append(
+    $(`#allPastMath`).append(
       `<li>${oldAnswers.inputOne} ${oldAnswers.mathButtons} ${oldAnswers.inputTwo} = ${oldAnswers.mathAnswers}</li>`
     );
   } // when appending to html, you're putting it on the line
 }
+
+function getObjectFromServer() {
+  $.ajax({
+    url: "/mathAnswers",
+    method: "GET",
+    //no data, because you're not giving data to server
+  })
+    .then((response) => {
+      console.log("POST IS WORKING", response);
+      // TEST - WORKS
+      appendAllTheMaths(response);
+    })
+    .catch((error) => {
+      console.log("NOPE - FAILED - POST", error);
+    });
+}
+//setting up this function will keep your information on the page
 
 function operatorButtonPush() {
   operatorSymbols = $(this).text();
@@ -81,3 +108,12 @@ function operatorButtonPush() {
   // of .text
   // TEST - WORKS
 }
+function clearsTheInputs() {
+  operatorSymbols = "";
+  $("#inputOne").val("");
+  $("#inputTwo").val("");
+}
+
+//jQuery gives you a yellow warning when you start the page because it is
+//using that 'get' to look at the empty array that hasn't had any information
+// put in yet. Once an equation is run, that goes away on page refresh
