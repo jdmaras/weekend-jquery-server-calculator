@@ -8,7 +8,7 @@ function onReady() {
   getObjectFromServer();
 }
 
-operatorSymbols = "";
+let operatorSymbols = "";
 
 function onSubmit() {
   //evt.preventDefault();
@@ -22,9 +22,10 @@ function onSubmit() {
   };
   //mathButtons sends over all of my operators
   //mathAnswers is what they all equate to
+  // - being sent as objects with {}
 
-  console.log(`Do I get input values?`, allInputs.inputOne);
-  console.log(`Do I get input values?`, allInputs.inputTwo);
+  //console.log(`Do I get input values?`, allInputs.inputOne);
+  //console.log(`Do I get input values?`, allInputs.inputTwo);
   //TEST - WORKS
   if (
     allInputs.inputOne === "" ||
@@ -34,6 +35,7 @@ function onSubmit() {
     return false;
   }
   // this if keeps the equals button from running if nothing is in inputs
+  // the false stops this function from running if all 3 are not selected
   $.ajax({
     url: "/inputvalue",
     method: "POST",
@@ -43,8 +45,8 @@ function onSubmit() {
       console.log("POST IS WORKING", response);
       // TEST - WORKS
       clearsTheInputs();
-      //running the clearInputs function in here so that if it doesn't run
-      // you can clear the inputs
+      // running the clearInputs function so the user doesn't need to
+      // clear the inputs for the next equation
     })
     .catch((error) => {
       console.log("NOPE - FAILED - POST", error);
@@ -65,19 +67,20 @@ function onSubmit() {
     });
 }
 
-function appendAllTheMaths(superAnswers) {
+//
+function appendAllTheMaths(array) {
   $(`#currentMaths`).empty();
   $(`#currentMaths`).append(
-    `${superAnswers[superAnswers.length - 1].inputOne} ${
-      superAnswers[superAnswers.length - 1].mathButtons
-    } ${superAnswers[superAnswers.length - 1].inputTwo} = ${
-      superAnswers[superAnswers.length - 1].mathAnswers
+    `${array[array.length - 1].inputOne} ${
+      array[array.length - 1].mathButtons
+    } ${array[array.length - 1].inputTwo} = ${
+      array[array.length - 1].mathAnswers
     }`
     //superAnswer is like tacos. it's the argument you're naming
     // the array.
   );
   $(`#allPastMath`).empty();
-  for (let oldAnswers of superAnswers) {
+  for (let oldAnswers of array) {
     $(`#allPastMath`).append(
       `<li>${oldAnswers.inputOne} ${oldAnswers.mathButtons} ${oldAnswers.inputTwo} = ${oldAnswers.mathAnswers}</li>`
     );

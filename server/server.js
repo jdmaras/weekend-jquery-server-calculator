@@ -23,6 +23,7 @@ app.post("/inputvalue", (req, res) => {
   console.log(`Did this push currentInputs`, currentMathArray);
 
   res.sendStatus(201);
+  // 201 - means "created" and it sends back that you're good to go
 });
 
 app.get("/mathAnswers", (req, res) => {
@@ -68,3 +69,14 @@ function divideTogetherInputs(division) {
 app.listen(5000, () => {
   console.log(`I'M LISTENING, BABY`);
 });
+
+// function grabOperator() {
+//   opperator = $(this).val();
+//   console.log(`operator is`, opperator);
+// }
+
+// in the html, you put value ="+"
+// and that would make that operator
+// access what that would do
+// you would setup a click operator in onReady
+// to access it
