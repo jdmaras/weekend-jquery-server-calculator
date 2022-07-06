@@ -6,3 +6,7 @@ We were tasked with making a client side side calculator but all of the math is 
 <img src="./ReadMePics/CalculatorOne.png"/>
 * Showing previous equations even when a new one is put in
 <img src="./ReadMePics/CalculatorTwo.png"/>
+
+# Languages
+ - JQuery
+ - HTML
