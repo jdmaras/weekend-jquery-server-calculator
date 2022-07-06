@@ -10,3 +10,4 @@ We were tasked with making a client side side calculator but all of the math is 
 # Languages
  - JQuery
  - HTML
+ - Javascript
